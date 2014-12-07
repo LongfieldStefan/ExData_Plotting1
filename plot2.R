@@ -1,0 +1,10 @@
+library(dplyr)
+
+dataRaw <- read.table("household_power_consumption.txt", sep = ";",header = TRUE, na.strings="?", colClasses = c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"))
+data <- tbl_df(dataRaw)
+dataT <- mutate(data, Date = as.Date(Date, format = "%d/%m/%Y"))
+courseData <- filter(dataT, Date == "2007-02-01" | Date == "2007-02-02")
+png("plot2.png", width = 480, height = 480)
+plot(courseData$Global_active_power, type = "l", xlab = "", ylab = "Global Active Power(kilowatts)", xaxt = "n")
+axis(1, at = c(1,length(courseData$Global_active_power)/2,length(courseData$Global_active_power)), labels = c("Thu", "Fri", "Sat"))
+dev.off()
